@@ -1,12 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { useEffect, useRef } from "react"
+import ReactDOM from "react-dom"
+import Parcoords from "parcoord-es"
+// import "parcoord-es/dist/parcoords.css"
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function Test({ data }) {
+  const chartRef = useRef(null)
+  useEffect(() => {
+    if (chartRef !== null) {
+      // use default config;
+      const chart = Parcoords()(chartRef.current)
+        .data(data)
+        .render()
+        .createAxes()
+    }
+  }, [chartRef])
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  return (
+    <div>
+      <div style={{ height: `100px` }} ref={chartRef} className={"parcoords"} />
+    </div>
+  )
+}
+
+ReactDOM.render(
+  <>
+    <Test data={[[3, -3, 9, 6, 0.33, 1], [4, -4, 16, 8, 0.25, 1]]} />
+    <Test
+      data={[[0, -0, 0, 0, 0, 1], [1, -1, 1, 2, 1, 1], [2, -2, 4, 4, 0.5, 1]]}
+    />
+  </>,
+  document.querySelector("#root")
+)
