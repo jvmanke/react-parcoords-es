@@ -4,64 +4,41 @@ import Parcoords from "parcoord-es"
 
 import styled from "styled-components"
 
-function FunctionParcoords({ className }) {
-  const [parcoord] = useState(() => Parcoords())
+function FunctionParcoords({ className, onMount = () => {} }) {
+  const [parcoord, setPC] = useState(null)
   const chartRef = useRef(null)
+
   useEffect(() => {
     if (chartRef !== null) {
       // use default config;
-      parcoord(chartRef.current)
-        .data([
-          [0, -0, 0, 0, 0, 1],
-          [1, -1, 1, 2, 1, 1],
-          [2, -2, 4, 4, 0.5, 1],
-          [3, -3, 9, 6, 0.33, 1],
-          [4, -4, 16, 8, 0.25, 1]
-        ])
-        .render()
-        .createAxes()
-    }
-  }, [chartRef, parcoord])
-
-  return <ChartContainer ref={chartRef} className={className} />
-}
-
-class ClassParcoords extends React.Component {
-  constructor() {
-    super()
-    this.aRef = React.createRef()
-  }
-
-  componentDidMount() {
-    this.parcoords = Parcoords()(this.aRef.current)
-      .data([
+      const pc = Parcoords()(chartRef.current).data([
         [0, -0, 0, 0, 0, 1],
         [1, -1, 1, 2, 1, 1],
         [2, -2, 4, 4, 0.5, 1],
         [3, -3, 9, 6, 0.33, 1],
         [4, -4, 16, 8, 0.25, 1]
       ])
-      .createAxes()
-  }
 
-  render() {
-    return <ChartContainer ref={this.aRef} />
-  }
+      setPC(() => pc)
+      onMount(() => pc)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartRef])
+  return <ChartContainer ref={chartRef} className={className} />
 }
 
 const Wrapper = () => {
-  const ref = useRef(null)
-
+  const [parcoord, setPC] = useState(null)
   return (
     <>
       <button
         type="button"
         onClick={() => {
-          ref.current.parcoords.render()
-          ref.current.parcoords.createAxes()
+          parcoord.render()
+          parcoord.createAxes()
         }}
       />
-      <ClassParcoords ref={ref} />
+      <FunctionParcoords onMount={setPC} />
     </>
   )
 }
@@ -130,7 +107,6 @@ const ChartContainer = styled.div`
 ReactDOM.render(
   <div style={{ height: 300 }}>
     <Wrapper />
-    <FunctionParcoords />
   </div>,
   document.querySelector("#root")
 )
