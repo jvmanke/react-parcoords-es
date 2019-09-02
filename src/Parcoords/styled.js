@@ -58,6 +58,8 @@ export const Container = styled.div`
   -webkit-touch-callout: none;
   user-select: none;
   background-color: ${({ background }) => background || "white"};
+  display: ${({ display, width }) =>
+    display || (width ? "inline-block" : "block")};
   width: ${({ width }) => width || "100%"};
   height: ${({ height }) => height || "100%"};
 `
