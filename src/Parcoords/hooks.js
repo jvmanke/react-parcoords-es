@@ -2,7 +2,9 @@ import { select } from "d3-selection"
 import parcoords from "parcoord-es"
 import { useEffect, useState } from "react"
 
-export function usePC(containerRef, config = {}, event = () => {}) {
+const defaultConfig = {}
+
+export function usePC(containerRef, config = defaultConfig, event = () => {}) {
   const [pc, setPC] = useState(null)
 
   useEffect(() => {

@@ -10,7 +10,7 @@ function Parcoords({ className, data }) {
 
   const pc = usePC(chartRef)
   useData(pc, data)
-  useRender(pc, true)
+  useRender(pc, true, [data])
 
   return <Container ref={chartRef} className={className} />
 }
