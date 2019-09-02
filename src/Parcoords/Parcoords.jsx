@@ -15,39 +15,49 @@ import {
   useDimensions
 } from "./hooks"
 import { Container } from "./styled"
-import { convertMargin } from "./utils"
+import { validateMargin, validateDimensions } from "./utils"
 
 function Parcoords({
   className,
   data,
-  config,
+  dimensions,
+
   width,
   height,
   margin,
+
+  config,
+
   queued = false,
-  color = "#069",
   reorderable = false,
   brushed = false,
   brushMode = "1D-axes",
+  onBrush,
+
+  color = "#069",
   brushedColor = null,
   alphaOnBrushed = 0,
-  onBrush,
-  highlight,
-  dimensions
+
+  highlight
 }) {
   const chartRef = useRef(null)
 
-  const convMargin = convertMargin(margin)
+  const valMargin = validateMargin(margin)
+  const valDimensions = validateDimensions(dimensions, data)
 
-  const pc = usePC(chartRef, config, [width, height, ...convMargin])
-  useMargin(pc, convMargin)
+  const pc = usePC(chartRef, config, [width, height, ...valMargin])
+
+  useMargin(pc, valMargin)
+
   useQueued(pc, queued)
   useData(pc, data)
-  useDimensions(pc, dimensions)
+  useDimensions(pc, valDimensions)
+
   useColor(pc, color)
-  useRender(pc, true, [data, color, reorderable, ...convMargin, dimensions])
-  useHighlight(pc, highlight)
+  useRender(pc, true, [data, color, reorderable, ...valMargin, dimensions])
+
   useBrush(pc, brushed, brushMode, brushedColor, alphaOnBrushed, onBrush)
+  useHighlight(pc, highlight)
   useReorderable(pc, reorderable)
 
   return (

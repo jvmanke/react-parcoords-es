@@ -5,11 +5,11 @@ import ReactDOM from "react-dom"
 // Relative Imports
 import Parcoords from "./Parcoords"
 const data = [
-  { name: 0, protein: -0 },
-  { name: 1, protein: -1 },
-  { name: 2, protein: -2 },
-  { name: 3, protein: -3 },
-  { name: 4, protein: -4 }
+  [0, -0, 0, 0, 0, 1],
+  [1, -1, 1, 2, 1, 1],
+  [2, -2, 4, 4, 0.5, 1],
+  [3, -3, 9, 6, 0.33, 1],
+  [4, -4, 16, 8, 0.25, 1]
 ]
 
 const Wrapper = () => {
@@ -22,16 +22,8 @@ const Wrapper = () => {
       <div style={{ height: 300 }}>
         <Parcoords
           data={data}
-          dimensions={
-            sw
-              ? {
-                  name: {
-                    title: "NAME"
-                  },
-                  protein: {}
-                }
-              : undefined
-          }
+          brushed
+          highlight={[[1, -1, 1, 2, 1, 1], [2, -2, 4, 4, 0.5, 1]]}
         />
       </div>
     </>

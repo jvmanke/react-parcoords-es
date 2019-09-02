@@ -24,6 +24,32 @@ export function usePC(containerRef, config, dependencies = []) {
   return pc
 }
 
+export function useBrush(pc, brushed, mode, color, alpha, onBrush) {
+  useEffect(() => {
+    console.log("useBrush")
+    if (pc) {
+      if (brushed) {
+        pc.brushMode(mode)
+        pc.alphaOnBrushed(alpha)
+        pc.brushedColor(color)
+        if (onBrush) {
+          pc.on("brush", sel => onBrush(sel))
+        }
+      } else {
+        pc.brushMode("None")
+      }
+    }
+  }, [pc, brushed, mode, color, alpha, onBrush])
+}
+export function useColor(pc, color) {
+  useEffect(() => {
+    console.log("useColor")
+    if (pc) {
+      pc.color(color)
+    }
+  }, [pc, color])
+}
+
 export function useData(pc, data) {
   useEffect(() => {
     console.log("useData")
@@ -33,16 +59,28 @@ export function useData(pc, data) {
   }, [pc, data])
 }
 
-export function useRender(pc, render, dependencies = []) {
+const noDimensions = {}
+export function useDimensions(pc, dimensions = noDimensions) {
   useEffect(() => {
-    console.log("useRender")
-    if (render) {
-      if (pc) {
-        pc.render()
-        pc.createAxes()
+    console.log("useDimensions")
+    if (pc) {
+      pc.dimensions(dimensions)
+    }
+  }, [pc, dimensions])
+}
+
+const emptyHighlight = []
+export function useHighlight(pc, highlight = emptyHighlight) {
+  useEffect(() => {
+    console.log("useHighlight")
+    if (pc) {
+      if (highlight.length > 0) {
+        pc.highlight(highlight)
+      } else {
+        pc.unhighlight()
       }
     }
-  }, [pc, render, ...dependencies]) // eslint-disable-line
+  }, [pc, highlight])
 }
 
 export function useMargin(pc, margin) {
@@ -74,13 +112,16 @@ export function useQueued(pc, queued) {
   }, [pc, queued])
 }
 
-export function useColor(pc, color) {
+export function useRender(pc, render, dependencies = []) {
   useEffect(() => {
-    console.log("useColor")
-    if (pc) {
-      pc.color(color)
+    console.log("useRender")
+    if (render) {
+      if (pc) {
+        pc.render()
+        pc.createAxes()
+      }
     }
-  }, [pc, color])
+  }, [pc, render, ...dependencies]) // eslint-disable-line
 }
 
 export function useReorderable(pc, reorderable) {
@@ -92,46 +133,4 @@ export function useReorderable(pc, reorderable) {
       }
     }
   }, [pc, reorderable])
-}
-
-export function useBrush(pc, brushed, mode, color, alpha, onBrush) {
-  useEffect(() => {
-    console.log("useBrush")
-    if (pc) {
-      if (brushed) {
-        pc.brushMode(mode)
-        pc.alphaOnBrushed(alpha)
-        pc.brushedColor(color)
-        if (onBrush) {
-          pc.on("brush", sel => onBrush(sel))
-        }
-      } else {
-        pc.brushMode("None")
-      }
-    }
-  }, [pc, brushed, mode, color, alpha, onBrush])
-}
-
-const emptyHighlight = []
-export function useHighlight(pc, highlight = emptyHighlight) {
-  useEffect(() => {
-    console.log("useHighlight")
-    if (pc) {
-      if (highlight.length > 0) {
-        pc.highlight(highlight)
-      } else {
-        pc.unhighlight()
-      }
-    }
-  }, [pc, highlight])
-}
-
-const noDimensions = {}
-export function useDimensions(pc, dimensions = noDimensions) {
-  useEffect(() => {
-    console.log("useDimensions")
-    if (pc) {
-      pc.dimensions(dimensions)
-    }
-  }, [pc, dimensions])
 }

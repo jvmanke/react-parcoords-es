@@ -1,4 +1,4 @@
-export function convertMargin(margin = {}) {
+export function validateMargin(margin = {}) {
   let { top = 24, bottom = 12, right = 20, left = 20 } = margin
 
   if (typeof margin === "number") {
@@ -26,4 +26,10 @@ export function convertMargin(margin = {}) {
   }
 
   return [top, right, bottom, left]
+}
+
+export function validateDimensions(dimensions, data) {
+  if (!Array.isArray(data[0])) {
+    return dimensions
+  }
 }
