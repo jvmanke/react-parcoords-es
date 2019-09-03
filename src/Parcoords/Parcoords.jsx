@@ -19,6 +19,7 @@ import { validateMargin, validateDimensions } from "./utils"
 
 function Parcoords({
   className,
+
   data,
   dimensions,
 
@@ -38,14 +39,18 @@ function Parcoords({
   brushedColor = null,
   alphaOnBrushed = 0,
 
-  highlight
+  highlight,
+
+  watch = [],
+
+  ...styleProps
 }) {
   const chartRef = useRef(null)
 
   const valMargin = validateMargin(margin)
   const valDimensions = validateDimensions(dimensions, data)
 
-  const pc = usePC(chartRef, config, [width, height, ...valMargin])
+  const pc = usePC(chartRef, config, [width, height, ...valMargin, ...watch])
 
   useMargin(pc, valMargin)
 
@@ -66,6 +71,7 @@ function Parcoords({
       className={className}
       width={typeof width === "string" || !width ? width : `${width}px`}
       height={typeof height === "string" || !height ? height : `${height}px`}
+      {...styleProps}
     />
   )
 }

@@ -5,7 +5,7 @@ export const Container = styled.div`
   & > svg,
   & > canvas {
     font-size: 1em;
-    font-family: ${({ fontFamily }) => fontFamily || "sans-serif"};
+    font-family: "sans-serif";
     position: absolute;
   }
 
@@ -15,7 +15,7 @@ export const Container = styled.div`
 
   & text.label {
     cursor: default;
-    fill: ${({ tickColor, axisColor }) => tickColor || axisColor || "black"};
+    fill: ${({ axisTitleColor }) => axisTitleColor || "black"};
   }
 
   & rect.background {
@@ -38,7 +38,7 @@ export const Container = styled.div`
   & .axis line,
   & .axis path {
     fill: none;
-    stroke: ${({ axisColor }) => axisColor || "#222"};
+    stroke: "#222";
     shape-rendering: crispEdges;
   }
 
@@ -58,8 +58,7 @@ export const Container = styled.div`
   -webkit-touch-callout: none;
   user-select: none;
   background-color: ${({ background }) => background || "white"};
-  display: ${({ display, width }) =>
-    display || (width ? "inline-block" : "block")};
+  display: "inline-block";
   width: ${({ width }) => width || "100%"};
   height: ${({ height }) => height || "100%"};
 `
